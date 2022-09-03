@@ -4,10 +4,10 @@ export const Welcome = () => {
   return (
     <div className="quiz-bg">
       <div className="container">
-        test
+        welcome
       </div>
     </div>
   )
 }
 
-export default Welcome
+export default Welcome;
