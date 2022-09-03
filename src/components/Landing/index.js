@@ -1,4 +1,5 @@
-import React, { useRef, useEffect, useState, Fragment } from 'react'
+import React, { useRef, useEffect, useState, Fragment} from 'react'
+import { Link } from 'react-router-dom'
 
 const Landing = () => {
 
@@ -38,12 +39,12 @@ const Landing = () => {
   const displayBtn = showBtn && (
 
   <Fragment>
-    <div className="leftBox">
-        <button onMouseOver={setLeftImg} onMouseOut={clearImg} className="btn-welcome">Register</button>
+    <div className="leftBox" onMouseOver={setLeftImg} onMouseOut={clearImg}>
+        <Link className="btn-welcome" to="/signup" >Register</Link>
     </div>
 
-    <div className="rightBox">
-      <button onMouseOver={setRightImg} onMouseOut={clearImg} className="btn-welcome">Login</button>
+    <div className="rightBox" onMouseOver={setRightImg} onMouseOut={clearImg}>
+        <Link className="btn-welcome" to="/login" >Login</Link>
     </div>
   </Fragment>
   );
