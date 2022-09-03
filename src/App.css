@@ -231,11 +231,12 @@ footer {
 .slContainer {
   flex: 0 1 80%;
   display: flex;
+
 }
 
 .formBoxLeftSignup {
   min-height: 500px;
-  background-image: url(images/ironman.png);
+  background-image: url('./images/ironman.png');
   background-repeat: no-repeat;
   background-position: center center;
   flex: 0 1 50%;
@@ -371,7 +372,7 @@ button[disabled]:hover {
 .simpleLink:hover {
   color: var(--red-color);
 }
-/* END SIGNUP - LOGIN - FORGETPASSWORD */
+/* END UP - LOGIN - FORGETPASSWORD */
 
 /* LOADER */
 .loader {
