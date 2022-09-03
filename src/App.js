@@ -6,7 +6,7 @@ import Welcome  from './components/Welcome';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
 import ErrorPage from './components/ErrorPage';
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 
 import './App.css';
 

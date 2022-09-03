@@ -5,8 +5,8 @@ const Footer = () => {
 
     <footer>
       <div className="footer-container">
-        <p>Realised with Udemy</p>
-        <p>all icons provide by Iconfinder</p>
+        <p>Realised with Udemy 2022</p>
+        <p>all icons provided by Iconfinder</p>
       </div>
     </footer>
   )
