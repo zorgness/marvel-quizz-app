@@ -50,12 +50,12 @@ const Login = (props) => {
                         <form onSubmit={handleSubmit}>
 
                             <div className="inputBox">
-                                <input onChange={e => setEmail(e.target.value)} value={email} type="email" autoComplete="off" required />
+                                <input onChange={e => setEmail(e.target.value)} value={email} type="email" autoComplete="new-email" required />
                                 <label htmlFor="email">Email</label>
                             </div>
 
                             <div className="inputBox">
-                                <input onChange={e => setPassword(e.target.value)} value={password} type="password" autoComplete="off" required />
+                                <input onChange={e => setPassword(e.target.value)} value={password} type="password" autoComplete="new-password"required />
                                 <label htmlFor="password">Mot de passe</label>
                             </div>
 

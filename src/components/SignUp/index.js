@@ -81,6 +81,8 @@ const SignUp = (props) => {
 
               <div className="linkContainer">
                   <Link className="simpleLink" to="/login">Already register? Login</Link>
+                  <br/>
+                  <Link className="simpleLink" to="/forgetpassword">Forget your password?</Link>
               </div>
             </div>
           </div>
