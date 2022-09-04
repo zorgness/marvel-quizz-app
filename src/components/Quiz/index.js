@@ -1,8 +1,13 @@
 import React from 'react'
 
-const Quiz = () => {
+const Quiz = ({userData}) => {
+
+  const {username} = userData;
+
   return (
-    <div>Quiz</div>
+    <div>
+      <h2>{username}</h2>
+    </div>
   )
 }
 
