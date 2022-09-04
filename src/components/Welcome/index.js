@@ -18,8 +18,6 @@ const Welcome = (props) => {
       user ? setUserSession(user) : props.history.push("/");
     })
 
-    console.log(userSession)
-
     if (!!userSession) {
     // !!userSession same as userSession !== null
 
