@@ -7,6 +7,7 @@ import Login from './components/Login';
 import SignUp from './components/SignUp';
 import ErrorPage from './components/ErrorPage';
 import ForgetPassword from './components/ForgetPassword';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import './App.css';
 

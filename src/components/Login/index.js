@@ -23,7 +23,7 @@ const Login = (props) => {
         e.preventDefault();
 
         firebase.loginUser(email, password)
-        .then(user => {
+        .then(()=> {
             setEmail('');
             setPassword('');
             props.history.push('/welcome');
