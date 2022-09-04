@@ -1,13 +1,41 @@
-import React from 'react'
+import React, {useState, useEffect, useContext} from 'react'
+import Logout from '../Logout';
+import Quiz from '../Quiz';
+import { FirebaseContext } from '../Firebase'
+import Spinner from 'react-bootstrap/Spinner';
 
-export const Welcome = () => {
-  return (
-    <div className="quiz-bg">
-      <div className="container">
-        welcome
+
+const Welcome = (props) => {
+
+  const firebase = useContext(FirebaseContext)
+
+  const [userSession, setUserSession] = useState(null);
+
+  useEffect(() => {
+
+    let listener = firebase.auth.onAuthStateChanged(user => {
+      user ? setUserSession(user) : props.history.push("/");
+    })
+
+    return () => {
+      listener()
+    };
+
+  },[])
+
+
+  return userSession === null ? (<div className='loader'> <Spinner animation="grow" variant="danger" /> </div>
+
+  ) : (
+        <div className="quiz-bg">
+          <div className="container">
+
+              <Logout />
+              <Quiz />
+          </div>
       </div>
-    </div>
-  )
+  );
+
 }
 
 export default Welcome;

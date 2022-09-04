@@ -6,7 +6,7 @@ import Welcome  from './components/Welcome';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
 import ErrorPage from './components/ErrorPage';
-// import 'bootstrap/dist/css/bootstrap.min.css';
+import ForgetPassword from './components/ForgetPassword';
 
 import './App.css';
 
@@ -23,6 +23,7 @@ function App() {
             <Route path="/welcome" component={Welcome} />
             <Route path="/signup" component={SignUp} />
             <Route path="/login" component={Login} />
+            <Route path="/forgetpassword" component={ForgetPassword} />
             <Route component={ErrorPage} />
 
         </Switch>
