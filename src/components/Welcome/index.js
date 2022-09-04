@@ -10,6 +10,7 @@ const Welcome = (props) => {
   const firebase = useContext(FirebaseContext)
 
   const [userSession, setUserSession] = useState(null);
+  const [userData, setUserData] = useState({});
 
   useEffect(() => {
 
@@ -17,11 +18,32 @@ const Welcome = (props) => {
       user ? setUserSession(user) : props.history.push("/");
     })
 
+    console.log(userSession)
+
+    if (!!userSession) {
+    // !!userSession same as userSession !== null
+
+    firebase.user(userSession.uid)
+    .get()
+    .then(doc => {
+      if(doc && doc.exists) {
+
+        const myData = doc.data();
+        setUserData(myData);
+
+      }
+    }).catch( error => {
+      console.log(error);
+  })
+
     return () => {
       listener()
     };
+  }
 
-  },[])
+
+
+  },[userSession, firebase, props.history])
 
 
   return userSession === null ? (<div className='loader'> <Spinner animation="grow" variant="danger" /> </div>
@@ -31,7 +53,7 @@ const Welcome = (props) => {
           <div className="container">
 
               <Logout />
-              <Quiz />
+              <Quiz userData={userData}/>
           </div>
       </div>
   );
