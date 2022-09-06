@@ -124,6 +124,7 @@ export const QuizMarvel = [
                   answer: 8,
                   heroId: 1009662
               }
+
           ],
           "confirmed": [
               {
