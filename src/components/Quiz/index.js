@@ -2,23 +2,51 @@ import React, { Component } from 'react'
 import Levels from '../Levels';
 import {QuizMarvel} from './QuizMarvel'
 import ProgressBarQuiz from '../ProgressBar';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+const initialState = {
+
+  levelNames: ["beginner", "confirmed", "expert"],
+  quizLevel: 0,
+  maxQuestion: 10,
+  storedQuestion: [],
+  question: null,
+  options: [],
+  idQuestion: 0,
+  btnDisabled: true,
+  userAnswer: null,
+  score: 0,
+  welcomeMsg: false,
+  quizEnd: false,
+  percent: null
+
+};
+
+const notify = (message, style )=> {
+
+      style( message, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      });
+
+}
 
 class Quiz extends Component {
 
-  state = {
-    levelNames: ["beginner", "confirmed", "expert"],
-    quizLevel: 0,
-    maxQuestion: 10,
-    storedQuestion: [],
-    question: null,
-    options: [],
-    idQuestion: 0,
-    btnDisabled: true,
-    userAnswer: null,
-    score: 0
+  constructor(props) {
+    super(props)
+
+    this.state = initialState;
+    this.storedQuestionRef = React.createRef();
+
   }
 
-  storedQuestionRef = React.createRef();
 
   loadQuestions = level =>  {
     const fetchArrayQuiz = QuizMarvel[0].quizz[level];
@@ -48,11 +76,14 @@ class Quiz extends Component {
 
   nextQuestion = () => {
     if(this.state.idQuestion === this.state.maxQuestion - 1) {
-      console.log("maxQuestion reached");
+
+      this.setState({quizEnd: true})
+
     } else {
       this.setState(prevState => ({
         idQuestion: prevState.idQuestion + 1
       }))
+
     }
 
     const goodAnswer = this.storedQuestionRef.current[this.state.idQuestion].answer;
@@ -60,6 +91,9 @@ class Quiz extends Component {
       this.setState(prevState => ({
         score: prevState.score + 1
       }))
+      notify("Bravo + 1", toast.success)
+    } else {
+      notify("Wrong answer", toast.error)
     }
   }
 
@@ -75,7 +109,32 @@ class Quiz extends Component {
       this.setState({
         question: this.state.storedQuestion[this.state.idQuestion].question,
         options : this.state.storedQuestion[this.state.idQuestion].options,
+
       })
+
+    }
+
+    if(this.state.idQuestion !== prevState.idQuestion) {
+
+      this.setState({
+        question: this.state.storedQuestion[this.state.idQuestion].question,
+        options : this.state.storedQuestion[this.state.idQuestion].options,
+        userAnswer: null,
+        btnDisabled: null
+      })
+
+    }
+
+
+    if(this.props.userData.username) {
+
+      !this.state.welcomeMsg && notify(`Happy to see you here ${this.props.userData.username} Good luck!!!` , toast.info );
+
+      if(!this.state.welcomeMsg) {
+        this.setState({welcomeMsg: true});
+      }
+
+
 
     }
 
@@ -84,7 +143,9 @@ class Quiz extends Component {
 
   render() {
 
+
     const displayOption = this.state.options.map((option, index) => {
+
       return (
         <p key={index}
         onClick={() => this.submitAnswer(option)}
@@ -94,8 +155,12 @@ class Quiz extends Component {
     })
 
 
+
+
   return (
     <div>
+
+      <ToastContainer position="bottom-right" newestOnTop />
 
 
       <Levels />
