@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Levels from '../Levels';
 import {QuizMarvel} from './QuizMarvel'
 import ProgressBarQuiz from '../ProgressBar';
+import QuizOver from '../QuizOver';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -74,10 +75,14 @@ class Quiz extends Component {
 
   }
 
+  gameOver = (option) => {
+    this.setState({quizEnd: true})
+  }
+
   nextQuestion = () => {
     if(this.state.idQuestion === this.state.maxQuestion - 1) {
 
-      this.setState({quizEnd: true})
+      this.gameOver();
 
     } else {
       this.setState(prevState => ({
@@ -152,12 +157,15 @@ class Quiz extends Component {
         className={`answerOptions ${this.state.userAnswer === option ? "selected" : null}`}>
         {option}</p>
       )
-    })
+    });
 
+  return this.state.quizEnd ?
 
+   (
 
+    <QuizOver />
 
-  return (
+  ): (
     <div>
 
       <ToastContainer position="bottom-right" newestOnTop />
