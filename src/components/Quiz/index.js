@@ -137,7 +137,6 @@ class Quiz extends Component {
       score
   } = this.state;
 
-  console.log('end: ' + quizEnd);
 
     if(storedQuestions !== prevState.storedQuestions) {
 
