@@ -1,8 +1,34 @@
-import React, {Fragment} from 'react'
+import React, {useState, useEffect, Fragment} from 'react'
 
 const QuizOver = React.forwardRef((props, ref) => {
 
-  console.log(ref)
+  const [asked, setAsked] = useState([]);
+
+  useEffect(() => {
+    setAsked(ref.current);
+  }, []);
+
+  const questionAnswer = (
+    asked.map(question => {
+      return (
+        <tr key={question.id}>
+        <td>{question.question}</td>
+        <td>{question.answer}</td>
+        <td>
+            <button
+               className="btnInfo"
+              //  onClick={ () => showModal(question.heroId)}
+            >
+            Infos
+            </button>
+        </td>
+    </tr>
+      )
+
+  })
+  )
+
+
   return (
     <Fragment>
       <div className="stepsBtnContainer">
@@ -17,7 +43,27 @@ const QuizOver = React.forwardRef((props, ref) => {
 
       <hr/>
 
-      <p>Rigth Answer</p>
+
+
+      <div className="answerContainer">
+        <table className="answers">
+
+        <thead>
+            <tr>
+                <th>Question</th>
+                <th>Answer</th>
+                <th>Info</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+          {questionAnswer}
+
+        </tbody>
+
+        </table>
+      </div>
 
     </Fragment>
 
