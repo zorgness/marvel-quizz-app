@@ -125,7 +125,7 @@ class Quiz extends Component {
         question: this.state.storedQuestion[this.state.idQuestion].question,
         options : this.state.storedQuestion[this.state.idQuestion].options,
         userAnswer: null,
-        btnDisabled: null
+        btnDisabled: true
       })
 
     }
@@ -172,14 +172,18 @@ class Quiz extends Component {
 
 
       <Levels />
-      <ProgressBarQuiz />
+      <ProgressBarQuiz
+      idQuestion={this.state.idQuestion}
+      maxQuestion={this.state.maxQuestion}
+       />
+
 
       <h2>{this.state.question}</h2>
 
         {displayOption}
 
       <button disabled={this.state.btnDisabled} onClick={this.nextQuestion} className="btnSubmit">
-        {this.state.idQuestion === this.state.maxQuestion - 1 ? 'End' : 'Next'}
+        {this.state.idQuestion < this.state.maxQuestion - 1 ? 'NEXT' : 'END'}
       </button>
     </div>
   )
