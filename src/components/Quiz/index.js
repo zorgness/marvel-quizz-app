@@ -148,22 +148,36 @@ class Quiz extends Component {
 
   render() {
 
+    const {
+      quizLevel,
+      maxQuestion,
+      question,
+      options,
+      idQuestion,
+      btnDisabled,
+      userAnswer,
+      score,
+      quizEnd,
+      percent
+  } = this.state;
 
-    const displayOption = this.state.options.map((option, index) => {
+
+    const displayOption = options.map((option, index) => {
 
       return (
         <p key={index}
         onClick={() => this.submitAnswer(option)}
-        className={`answerOptions ${this.state.userAnswer === option ? "selected" : null}`}>
+        className={`answerOptions ${userAnswer === option ? "selected" : null}`}>
         {option}</p>
       )
     });
 
-  return this.state.quizEnd ?
+  return !quizEnd ?
 
    (
 
-    <QuizOver />
+    <QuizOver
+    ref={this.storedQuestionRef}/>
 
   ): (
     <div>
@@ -173,17 +187,17 @@ class Quiz extends Component {
 
       <Levels />
       <ProgressBarQuiz
-      idQuestion={this.state.idQuestion}
-      maxQuestion={this.state.maxQuestion}
+      idQuestion={idQuestion}
+      maxQuestion={maxQuestion}
        />
 
 
-      <h2>{this.state.question}</h2>
+      <h2>{question}</h2>
 
         {displayOption}
 
-      <button disabled={this.state.btnDisabled} onClick={this.nextQuestion} className="btnSubmit">
-        {this.state.idQuestion < this.state.maxQuestion - 1 ? 'NEXT' : 'END'}
+      <button disabled={btnDisabled} onClick={this.nextQuestion} className="btnSubmit">
+        {idQuestion < maxQuestion - 1 ? 'NEXT' : 'END'}
       </button>
     </div>
   )
