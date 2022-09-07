@@ -38,6 +38,8 @@ const notify = (message, style )=> {
 
 }
 
+const levelNames = ["debutant", "confirme", "expert"];
+
 class Quiz extends Component {
 
   constructor(props) {
@@ -75,7 +77,21 @@ class Quiz extends Component {
 
   }
 
-  gameOver = (option) => {
+  getPercentage = (maxQuest, ourScore) => (ourScore / maxQuest) * 100;
+
+  gameOver = () => {
+    const finalPercent = this.getPercentage(this.state.maxQuestion, this.state.score);
+
+    if (finalPercent >= 50) {
+      this.setState({
+      quizLevel: this.state.quizLevel + 1,
+      percent: finalPercent
+
+    })
+    } else {
+      this.setState({percent: finalPercent})
+
+    }
     this.setState({quizEnd: true})
   }
 
@@ -172,12 +188,19 @@ class Quiz extends Component {
       )
     });
 
-  return !quizEnd ?
+  return quizEnd ?
 
    (
 
     <QuizOver
-    ref={this.storedQuestionRef}/>
+        ref={this.storedQuestionRef}
+        levelNames={levelNames}
+        score={score}
+        maxQuestion={maxQuestion}
+        quizLevel={quizLevel}
+        percent={percent}
+        loadLevelQuestions={this.loadLevelQuestions}
+    />
 
   ): (
     <div>
