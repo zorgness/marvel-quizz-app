@@ -11,7 +11,7 @@ const initialState = {
   levelNames: ["beginner", "confirmed", "expert"],
   quizLevel: 0,
   maxQuestion: 10,
-  storedQuestion: [],
+  storedQuestions: [],
   question: null,
   options: [],
   idQuestion: 0,
@@ -38,7 +38,7 @@ const notify = (message, style )=> {
 
 }
 
-const levelNames = ["debutant", "confirme", "expert"];
+const levelNames = ["beginner", "confirmed", "expert"];
 
 class Quiz extends Component {
 
@@ -46,25 +46,26 @@ class Quiz extends Component {
     super(props)
 
     this.state = initialState;
-    this.storedQuestionRef = React.createRef();
+    this.storedQuestionsRef = React.createRef();
 
   }
 
 
   loadQuestions = level =>  {
+
     const fetchArrayQuiz = QuizMarvel[0].quizz[level];
 
     if(fetchArrayQuiz.length >= this.state.maxQuestion ) {
 
-      this.storedQuestionRef.current = fetchArrayQuiz;
-      const newArray = fetchArrayQuiz.map(({answer, ...rest}) => rest )
+      this.storedQuestionsRef.current = fetchArrayQuiz;
+      const newArray = fetchArrayQuiz.map(({answer, ...rest}) => rest );
 
       // const destructuredArray = fetchArrayQuiz.reduce((acc, val) => {
       //   Object.keys(val).forEach(key => (acc[key] = acc[key] || []).push(val[key]));
       //   return acc;
       // }, {});
 
-      this.setState({storedQuestion: newArray})
+      this.setState({storedQuestions: newArray})
 
     } else {
       console.log("not enough questions loaded")
@@ -79,26 +80,29 @@ class Quiz extends Component {
 
   getPercentage = (maxQuest, ourScore) => (ourScore / maxQuest) * 100;
 
-  gameOver = () => {
-    const finalPercent = this.getPercentage(this.state.maxQuestion, this.state.score);
+  gameOver = percent => {
 
-    if (finalPercent >= 50) {
+    if (percent >= 50) {
       this.setState({
       quizLevel: this.state.quizLevel + 1,
-      percent: finalPercent
+      percent: percent,
+
 
     })
     } else {
-      this.setState({percent: finalPercent})
+      this.setState({
+        percent: percent,
+
+      })
 
     }
-    this.setState({quizEnd: true})
+
   }
 
   nextQuestion = () => {
     if(this.state.idQuestion === this.state.maxQuestion - 1) {
 
-      this.gameOver();
+        this.setState({quizEnd: true})
 
     } else {
       this.setState(prevState => ({
@@ -107,7 +111,7 @@ class Quiz extends Component {
 
     }
 
-    const goodAnswer = this.storedQuestionRef.current[this.state.idQuestion].answer;
+    const goodAnswer = this.storedQuestionsRef.current[this.state.idQuestion].answer;
     if(this.state.userAnswer === goodAnswer) {
       this.setState(prevState => ({
         score: prevState.score + 1
@@ -125,26 +129,41 @@ class Quiz extends Component {
 
   componentDidUpdate(prevProps, prevState) {
 
-    if(this.state.storedQuestion !== prevState.storedQuestion) {
+    const {
+      maxQuestion,
+      storedQuestions,
+      idQuestion,
+      quizEnd,
+      score
+  } = this.state;
+
+  console.log('end: ' + quizEnd);
+
+    if(storedQuestions !== prevState.storedQuestions) {
 
       this.setState({
-        question: this.state.storedQuestion[this.state.idQuestion].question,
-        options : this.state.storedQuestion[this.state.idQuestion].options,
+        question: storedQuestions[idQuestion].question,
+        options : storedQuestions[idQuestion].options,
 
       })
 
     }
 
-    if(this.state.idQuestion !== prevState.idQuestion) {
+    if(idQuestion !== prevState.idQuestion) {
 
       this.setState({
-        question: this.state.storedQuestion[this.state.idQuestion].question,
-        options : this.state.storedQuestion[this.state.idQuestion].options,
+        question: storedQuestions[idQuestion].question,
+        options : storedQuestions[idQuestion].options,
         userAnswer: null,
         btnDisabled: true
       })
 
     }
+
+    if ( quizEnd !== prevState.quizEnd ) {
+      const gradepercent = this.getPercentage(maxQuestion, score);
+      this.gameOver(gradepercent);
+  }
 
 
     if(this.props.userData.username) {
@@ -154,12 +173,14 @@ class Quiz extends Component {
       if(!this.state.welcomeMsg) {
         this.setState({welcomeMsg: true});
       }
-
-
-
     }
-
   }
+
+  loadLevelQuestions = level => {
+    this.setState({...initialState, quizLevel: level});
+
+    this.loadQuestions(levelNames[level]);
+}
 
 
   render() {
@@ -193,7 +214,7 @@ class Quiz extends Component {
    (
 
     <QuizOver
-        ref={this.storedQuestionRef}
+        ref={this.storedQuestionsRef}
         levelNames={levelNames}
         score={score}
         maxQuestion={maxQuestion}
@@ -208,7 +229,11 @@ class Quiz extends Component {
       <ToastContainer position="bottom-right" newestOnTop />
 
 
-      <Levels />
+      <Levels
+        levelNames={levelNames}
+        quizLevel={quizLevel}
+      />
+
       <ProgressBarQuiz
       idQuestion={idQuestion}
       maxQuestion={maxQuestion}
@@ -219,7 +244,9 @@ class Quiz extends Component {
 
         {displayOption}
 
-      <button disabled={btnDisabled} onClick={this.nextQuestion} className="btnSubmit">
+      <button disabled={btnDisabled}
+       onClick={this.nextQuestion}
+       className="btnSubmit">
         {idQuestion < maxQuestion - 1 ? 'NEXT' : 'END'}
       </button>
     </div>

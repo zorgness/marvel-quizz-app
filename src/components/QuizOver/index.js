@@ -15,7 +15,6 @@ const QuizOver = React.forwardRef((props, ref) => {
   const [asked, setAsked] = useState([]);
 
 
-
   useEffect(() => {
     setAsked(ref.current);
   }, [ref]);
@@ -68,14 +67,14 @@ const QuizOver = React.forwardRef((props, ref) => {
   ) : (
     <Fragment>
             <div className="stepsBtnContainer">
-                <p className="failureMsg">Vous avez échoué !</p>
+                <p className="failureMsg">Game Over! on {levelNames[quizLevel]}</p>
             </div>
 
             <div className="percentage">
                 <div className="progressPercent">Success: {percent} %</div>
                 <div className="progressPercent">Score: {score}/{maxQuestion}</div>
             </div>
-        </Fragment>
+    </Fragment>
   );
 
 
@@ -87,10 +86,7 @@ const QuizOver = React.forwardRef((props, ref) => {
         <td>{question.question}</td>
         <td>{question.answer}</td>
         <td>
-            <button
-               className="btnInfo"
-              //  onClick={ () => showModal(question.heroId)}
-            >
+            <button className="btnInfo">
             Infos
             </button>
         </td>
@@ -101,10 +97,6 @@ const QuizOver = React.forwardRef((props, ref) => {
   ) : (
     <tr>
         <td colSpan="3" style={{textAlign: 'center', color: 'red'}}>
-            {/* <Loader
-                loadingMsg={"pas de réponses!"}
-                styling={{textAlign: 'center', color: 'red'}}
-            /> */}
             No answer
         </td>
     </tr>

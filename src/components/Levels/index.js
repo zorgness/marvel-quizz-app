@@ -1,9 +1,13 @@
 import React from 'react'
+import CapitalizeFirestletter from '../../utils/CapitalizeFirstLetter'
 
-const Levels = () => {
+const Levels = ({levelNames, quizLevel}) => {
+
+  const levelName = levelNames[quizLevel];
+
   return (
     <div className="levelsContainer">
-      <h2 className="headingLevels">Beginner</h2>
+      <h2 className="headingLevels">{CapitalizeFirestletter(levelName)}</h2>
     </div>
   )
 }
