@@ -5,6 +5,7 @@ import ProgressBarQuiz from '../ProgressBar';
 import QuizOver from '../QuizOver';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { FaChevronRight, FaCheck } from "react-icons/fa";
 
 const initialState = {
 
@@ -204,7 +205,7 @@ class Quiz extends Component {
         <p key={index}
         onClick={() => this.submitAnswer(option)}
         className={`answerOptions ${userAnswer === option ? "selected" : null}`}>
-        {option}</p>
+       {userAnswer === option ?  <FaCheck />  : <FaChevronRight /> }  {option}</p>
       )
     });
 
