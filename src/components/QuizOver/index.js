@@ -1,5 +1,7 @@
 import React, {useState, useEffect, Fragment} from 'react'
-import CapitalizeFirestletter from '../../utils/CapitalizeFirstLetter'
+import { FaTrophy, FaThumbsUp, FaThumbsDown } from "react-icons/fa";
+
+
 
 const QuizOver = React.forwardRef((props, ref) => {
 
@@ -30,7 +32,7 @@ const QuizOver = React.forwardRef((props, ref) => {
         (
 
           <Fragment>
-            <p className="successMsg">Bravo, go on next level</p>
+            <p className="successMsg">Bravo, go on next level <FaThumbsUp  size="48px"/></p>
             <button
                 className="btnResult success"
                 onClick={() => loadLevelQuestions(quizLevel)}
@@ -43,7 +45,7 @@ const QuizOver = React.forwardRef((props, ref) => {
 
           <Fragment>
                     <p className="successMsg">
-                      Your an Expert!!!
+                      Your an Expert!!! <FaTrophy  size="48px"/>
                     </p>
                     <button
                         className="btnResult gameOver"
@@ -67,7 +69,7 @@ const QuizOver = React.forwardRef((props, ref) => {
   ) : (
     <Fragment>
             <div className="stepsBtnContainer">
-                <p className="failureMsg">Game Over! on {levelNames[quizLevel]}</p>
+                <p className="failureMsg">Game Over!!! <FaThumbsDown size="88px"/></p>
             </div>
 
             <div className="percentage">
