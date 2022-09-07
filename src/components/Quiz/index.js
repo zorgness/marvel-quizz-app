@@ -178,7 +178,9 @@ class Quiz extends Component {
 
         {displayOption}
 
-      <button disabled={this.state.btnDisabled} onClick={this.nextQuestion} className="btnSubmit">Next</button>
+      <button disabled={this.state.btnDisabled} onClick={this.nextQuestion} className="btnSubmit">
+        {this.state.idQuestion === this.state.maxQuestion - 1 ? 'End' : 'Next'}
+      </button>
     </div>
   )
 
