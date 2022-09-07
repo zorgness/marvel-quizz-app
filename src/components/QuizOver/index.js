@@ -1,4 +1,5 @@
-import React, {useState, useEffect, Fragment} from 'react'
+import React, {useState, useEffect, Fragment} from 'react';
+import Loader from '../Loader';
 import { FaTrophy, FaThumbsUp, FaThumbsDown } from "react-icons/fa";
 
 
@@ -69,7 +70,7 @@ const QuizOver = React.forwardRef((props, ref) => {
   ) : (
     <Fragment>
             <div className="stepsBtnContainer">
-                <p className="failureMsg">Game Over!!! <FaThumbsDown size="88px"/></p>
+                <p className="failureMsg">Game Over!!! <FaThumbsDown size="48px"/></p>
             </div>
 
             <div className="percentage">
@@ -98,8 +99,10 @@ const QuizOver = React.forwardRef((props, ref) => {
   })
   ) : (
     <tr>
-        <td colSpan="3" style={{textAlign: 'center', color: 'red'}}>
-            No answer
+        <td colSpan="3" >
+            <Loader
+            loadingMsg="No Answer"
+            styling={{textAlign: 'center', color: 'red'}} />
         </td>
     </tr>
 )
