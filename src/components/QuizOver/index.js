@@ -1,5 +1,6 @@
 import React, {useState, useEffect, Fragment} from 'react';
 import Loader from '../Loader';
+import Modal from '../Modal';
 import { FaTrophy, FaThumbsUp, FaThumbsDown } from "react-icons/fa";
 
 
@@ -16,11 +17,21 @@ const QuizOver = React.forwardRef((props, ref) => {
 } = props;
 
   const [asked, setAsked] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
 
 
   useEffect(() => {
     setAsked(ref.current);
   }, [ref]);
+
+  const showModal = () => {
+    setOpenModal(true);
+  }
+
+  const hideModal = () => {
+    setOpenModal(false);
+
+}
 
   const averageGrade = maxQuestion / 2;
 
@@ -89,7 +100,7 @@ const QuizOver = React.forwardRef((props, ref) => {
         <td>{question.question}</td>
         <td>{question.answer}</td>
         <td>
-            <button className="btnInfo">
+            <button className="btnInfo" onClick={() => showModal()}>
             Infos
             </button>
         </td>
@@ -132,6 +143,13 @@ const QuizOver = React.forwardRef((props, ref) => {
 
         </table>
       </div>
+
+      <Modal showModal={openModal} hideModal={hideModal}>
+                <h2 className="text-white">Comming soon</h2>
+                <div className="modalFooter">
+                  <button className="modalBtn" onClick={hideModal}>Fermer</button>
+                </div>
+      </Modal>
 
     </Fragment>
 

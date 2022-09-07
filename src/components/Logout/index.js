@@ -31,7 +31,7 @@ const Logout = () => {
         <input  type="checkbox"
         onChange={handleChange}
          checked={checked}/>
-        <span className='slider round' data-tip="logout"></span>
+        <span className='slider round text-success' data-tip="logout"></span>
       </label>
       <ReactToolTip
                 place="left"

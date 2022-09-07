@@ -5,7 +5,7 @@ import ProgressBarQuiz from '../ProgressBar';
 import QuizOver from '../QuizOver';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { FaChevronRight, FaCheck } from "react-icons/fa";
+import { FaChevronRight, FaCheck} from "react-icons/fa";
 
 const initialState = {
 
