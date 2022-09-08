@@ -27,7 +27,7 @@ const QuizOver = React.forwardRef((props, ref) => {
   console.log(API_PUBLIC_KEY);
   console.log(HASH);
 
-  const characterId = 1;
+  const characterId = 1009362;
   const fetchData = async (url) => {
 
     try {
@@ -54,7 +54,7 @@ const QuizOver = React.forwardRef((props, ref) => {
 
   useEffect(() => {
 
-    fetchData(`http://gateway.marvel.com/v1/public/characters/${characterId}/ts=1&apikey=${API_PUBLIC_KEY}&hash=${HASH}`);
+    fetchData(`https://gateway.marvel.com/v1/public/characters/${characterId}/ts=1&apikey=${API_PUBLIC_KEY}&hash=${HASH}`);
 
 
     setAsked(ref.current);
