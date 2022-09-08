@@ -18,11 +18,49 @@ const QuizOver = React.forwardRef((props, ref) => {
 
   const [asked, setAsked] = useState([]);
   const [openModal, setOpenModal] = useState(false);
+  // const [data, setData] = useState([]);
+
+
+  const API_PUBLIC_KEY = process.env.REACT_APP_MARVEL_API_PUBLIC;
+  const HASH = process.env.REACT_APP_MARVEL_API_HASH;
+
+  console.log(API_PUBLIC_KEY);
+  console.log(HASH);
+
+  // const characterId = 1;
+  // const fetchData = async (url) => {
+
+  //   try {
+
+  //     const response = await fetch(url);
+  //     if(!response.ok) {
+  //       throw new Error('no response from server');
+  //     }
+
+  //     const fetchedData = await response.json();
+
+
+  //     setData(fetchedData);
+
+  //   } catch (error) {
+  //     console.log(error.message);
+  //   }
+
+  // }
+
+
+
 
 
   useEffect(() => {
+
+    // fetchData(`http://gateway.marvel.com/v1/public/characters/ts=${characterId}&apikey=${API_PUBLIC_KEY}&hash=${HASH}`);
+
+
     setAsked(ref.current);
   }, [ref]);
+
+  // console.log(data);
 
   const showModal = () => {
     setOpenModal(true);
@@ -146,9 +184,7 @@ const QuizOver = React.forwardRef((props, ref) => {
 
       <Modal showModal={openModal} hideModal={hideModal}>
                 <h2 className="text-white">Comming soon</h2>
-                <div className="modalFooter">
-                  <button className="modalBtn" onClick={hideModal}>Fermer</button>
-                </div>
+
       </Modal>
 
     </Fragment>
