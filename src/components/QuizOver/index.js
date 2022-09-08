@@ -1,6 +1,7 @@
 import React, {useState, useEffect, Fragment} from 'react';
 import Loader from '../Loader';
 import Modal from '../Modal';
+import axios from 'axios';
 import { FaTrophy, FaThumbsUp, FaThumbsDown } from "react-icons/fa";
 
 
@@ -18,44 +19,18 @@ const QuizOver = React.forwardRef((props, ref) => {
 
   const [asked, setAsked] = useState([]);
   const [openModal, setOpenModal] = useState(false);
-  const [data, setData] = useState([]);
-
 
   const API_PUBLIC_KEY = process.env.REACT_APP_MARVEL_API_PUBLIC;
   const HASH = process.env.REACT_APP_MARVEL_API_HASH;
 
-  console.log(API_PUBLIC_KEY);
-  console.log(HASH);
-
-  const characterId = 1009362;
-  const fetchData = async (url) => {
-
-    try {
-
-      const response = await fetch(url);
-      if(!response.ok) {
-        throw new Error('no response from server');
-      }
-
-      const fetchedData = await response.json();
-
-
-      setData(fetchedData);
-
-    } catch (error) {
-      console.log(error.message);
-    }
-
-  }
-
-
-
+  const id = 1009362 ;
 
 
   useEffect(() => {
 
-    fetchData(`https://gateway.marvel.com/v1/public/characters/${characterId}/ts=1&apikey=${API_PUBLIC_KEY}&hash=${HASH}`);
-
+    axios
+    .get(`https://gateway.marvel.com/v1/public/characters/${id}?ts=1&apikey=${API_PUBLIC_KEY}&hash=${HASH}`)
+    .then( response => { console.log(response)}).catch( err => console.log(err) )
 
     setAsked(ref.current);
   }, [ref]);
