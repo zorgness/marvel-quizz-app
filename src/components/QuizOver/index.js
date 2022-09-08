@@ -18,7 +18,7 @@ const QuizOver = React.forwardRef((props, ref) => {
 
   const [asked, setAsked] = useState([]);
   const [openModal, setOpenModal] = useState(false);
-  // const [data, setData] = useState([]);
+  const [data, setData] = useState([]);
 
 
   const API_PUBLIC_KEY = process.env.REACT_APP_MARVEL_API_PUBLIC;
@@ -27,26 +27,26 @@ const QuizOver = React.forwardRef((props, ref) => {
   console.log(API_PUBLIC_KEY);
   console.log(HASH);
 
-  // const characterId = 1;
-  // const fetchData = async (url) => {
+  const characterId = 1;
+  const fetchData = async (url) => {
 
-  //   try {
+    try {
 
-  //     const response = await fetch(url);
-  //     if(!response.ok) {
-  //       throw new Error('no response from server');
-  //     }
+      const response = await fetch(url);
+      if(!response.ok) {
+        throw new Error('no response from server');
+      }
 
-  //     const fetchedData = await response.json();
+      const fetchedData = await response.json();
 
 
-  //     setData(fetchedData);
+      setData(fetchedData);
 
-  //   } catch (error) {
-  //     console.log(error.message);
-  //   }
+    } catch (error) {
+      console.log(error.message);
+    }
 
-  // }
+  }
 
 
 
@@ -54,7 +54,7 @@ const QuizOver = React.forwardRef((props, ref) => {
 
   useEffect(() => {
 
-    // fetchData(`http://gateway.marvel.com/v1/public/characters/ts=${characterId}&apikey=${API_PUBLIC_KEY}&hash=${HASH}`);
+    fetchData(`http://gateway.marvel.com/v1/public/characters/${characterId}/ts=1&apikey=${API_PUBLIC_KEY}&hash=${HASH}`);
 
 
     setAsked(ref.current);
