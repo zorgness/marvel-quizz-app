@@ -7,9 +7,6 @@ const Modal = ({ showModal, hideModal, children }) => {
                 <div className="modalContainer">
                     { children }
                 </div>
-                <div className="modalFooter">
-                  <button className="modalBtn" onClick={hideModal}>Fermer</button>
-                </div>
             </div>
         )
     )
