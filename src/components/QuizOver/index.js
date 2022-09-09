@@ -5,8 +5,6 @@ import capitalizeFirestletter from '../../utils/CapitalizeFirstLetter';
 // import axios from 'axios';
 import { FaTrophy, FaThumbsUp, FaThumbsDown } from "react-icons/fa";
 
-
-
 const QuizOver = React.forwardRef((props, ref) => {
 
   const {
@@ -26,11 +24,39 @@ const QuizOver = React.forwardRef((props, ref) => {
   const API_PUBLIC_KEY = process.env.REACT_APP_MARVEL_API_PUBLIC;
   const HASH = process.env.REACT_APP_MARVEL_API_HASH;
 
+//   const allStorage = () =>  {
+
+//     let values = [],
+//         keys = Object.keys(localStorage),
+//         i = keys.length;
+
+//     while ( i-- ) {
+//         values.push( JSON.parse(localStorage.getItem(keys[i])) );
+//     }
+
+//     return values;
+// }
 
   useEffect(() => {
 
+    if ( localStorage.getItem('marvelStorageDate')) {
+      const date = localStorage.getItem('marvelStorageDate');
+      checkDataAgeToCleanLocaleStorage (date);
+  }
+
     setAsked(ref.current);
   }, [ref]);
+
+  const checkDataAgeToCleanLocaleStorage = date => {
+    const today = new Date(Date.now()).getDate();
+    const dataDate = new Date(parseInt(date)).getDate()
+
+    if (today - dataDate <= 7) {
+      localStorage.clear()
+      localStorage.setItem('marvelStorageDate', Date.now());
+    }
+
+  }
 
   const fetchData = async url => {
 
@@ -45,6 +71,9 @@ const QuizOver = React.forwardRef((props, ref) => {
       const fetchedData = await response.json();
       setCharacterInfos(fetchedData);
       setLoading(false);
+
+      return fetchedData;
+
     }
 
     catch (err) {
@@ -63,12 +92,40 @@ const QuizOver = React.forwardRef((props, ref) => {
 
   // }
 
-  const showModal = id => {
+  const showModal =  async id => {
+
     setOpenModal(true);
-    fetchData(`https://gateway.marvel.com/v1/public/characters/${id}?ts=1&apikey=${API_PUBLIC_KEY}&hash=${HASH}`)
+
+    if (localStorage.getItem(id)) {
+
+      const storage =  JSON.parse(localStorage.getItem(id))
+
+      console.log('localStorage')
+
+      if (Object.keys(storage).length === 0) {
+        console.log(storage)
+      } else {
+
+        setCharacterInfos(storage);
+
+        setLoading(false);
+      }
 
 
+
+    } else {
+
+    const response =  await fetchData(`https://gateway.marvel.com/v1/public/characters/${id}?ts=1&apikey=${API_PUBLIC_KEY}&hash=${HASH}`)
+
+    await localStorage.setItem(id, JSON.stringify(response));
+
+    // console.log(localStorage.getItem(id));
+    if ( !localStorage.getItem('marvelStorageDate') ) {
+      localStorage.setItem('marvelStorageDate', Date.now());
+    }
   }
+
+}
 
 
   const hideModal = () => {
