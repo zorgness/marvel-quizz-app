@@ -24,16 +24,16 @@ const QuizOver = React.forwardRef((props, ref) => {
   const API_PUBLIC_KEY = process.env.REACT_APP_MARVEL_API_PUBLIC;
   const HASH = process.env.REACT_APP_MARVEL_API_HASH;
 
-//   const allStorage = () =>  {
 
+//   GIVE BACK ALL THE DATA IN LOCALSTORAGE
+
+//   const allStorage = () =>  {
 //     let values = [],
 //         keys = Object.keys(localStorage),
 //         i = keys.length;
-
 //     while ( i-- ) {
 //         values.push( JSON.parse(localStorage.getItem(keys[i])) );
 //     }
-
 //     return values;
 // }
 
@@ -81,15 +81,15 @@ const QuizOver = React.forwardRef((props, ref) => {
     }
   }
 
-  // const fetchedDataAxios = url => {
+  // SAME FUNCTION WITH AXIOS
 
+  // const fetchedDataAxios = url => {
   //    axios
   //   .get(url)
   //   .then(response => {
   //     setCharacterInfos(response.data);
   //     })
   //   .catch( err => console.log(err) )
-
   // }
 
   const showModal =  async id => {
@@ -119,7 +119,6 @@ const QuizOver = React.forwardRef((props, ref) => {
 
     await localStorage.setItem(id, JSON.stringify(response));
 
-    // console.log(localStorage.getItem(id));
     if ( !localStorage.getItem('marvelStorageDate') ) {
       localStorage.setItem('marvelStorageDate', Date.now());
     }
@@ -130,6 +129,7 @@ const QuizOver = React.forwardRef((props, ref) => {
 
   const hideModal = () => {
     setOpenModal(false);
+    setLoading(true);
 
 }
 
@@ -145,19 +145,19 @@ const QuizOver = React.forwardRef((props, ref) => {
 
           <Fragment>
             <p className="successMsg"><FaThumbsUp  size="48px"/> Bravo, go on next level</p>
-            <button
-                className="btnResult success"
-                onClick={() => loadLevelQuestions(quizLevel)}
-                >
-                Next level
-            </button>
+              <button
+                  className="btnResult success"
+                  onClick={() => loadLevelQuestions(quizLevel)}
+                  >
+                  Next level
+              </button>
           </Fragment>
 
         ) : (
 
           <Fragment>
                     <p className="successMsg">
-                    <FaTrophy  size="48px"/> Your an Expert!!! <FaTrophy  size="48px"/>
+                      <FaTrophy  size="48px"/> Your an Expert!!! <FaTrophy  size="48px"/>
                     </p>
                     <button
                         className="btnResult gameOver"
@@ -171,7 +171,7 @@ const QuizOver = React.forwardRef((props, ref) => {
       }
       </div>
 
-      <div className="percentage">
+        <div className="percentage">
             <div className="progressPercent">Success: {percent} %</div>
             <div className="progressPercent">Score: {score}/{maxQuestion}</div>
         </div>
@@ -190,7 +190,6 @@ const QuizOver = React.forwardRef((props, ref) => {
             </div>
     </Fragment>
   );
-
 
 
   const questionAnswer = score >= averageGrade ?  (
