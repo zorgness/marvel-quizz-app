@@ -1,7 +1,8 @@
 import React, {useState, useEffect, Fragment} from 'react';
 import Loader from '../Loader';
 import Modal from '../Modal';
-import axios from 'axios';
+import capitalizeFirestletter from '../../utils/CapitalizeFirstLetter';
+// import axios from 'axios';
 import { FaTrophy, FaThumbsUp, FaThumbsDown } from "react-icons/fa";
 
 
@@ -19,27 +20,56 @@ const QuizOver = React.forwardRef((props, ref) => {
 
   const [asked, setAsked] = useState([]);
   const [openModal, setOpenModal] = useState(false);
+  const [characterInfos, setCharacterInfos] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const API_PUBLIC_KEY = process.env.REACT_APP_MARVEL_API_PUBLIC;
   const HASH = process.env.REACT_APP_MARVEL_API_HASH;
 
-  const id = 1009362 ;
-
 
   useEffect(() => {
-
-    axios
-    .get(`https://gateway.marvel.com/v1/public/characters/${id}?ts=1&apikey=${API_PUBLIC_KEY}&hash=${HASH}`)
-    .then( response => { console.log(response)}).catch( err => console.log(err) )
 
     setAsked(ref.current);
   }, [ref]);
 
-  // console.log(data);
+  const fetchData = async url => {
 
-  const showModal = () => {
-    setOpenModal(true);
+    try {
+
+    const response = await fetch(url);
+
+      if(!response.ok) {
+        throw new Error('no response from server');
+      }
+
+      const fetchedData = await response.json();
+      setCharacterInfos(fetchedData);
+      setLoading(false);
+    }
+
+    catch (err) {
+      console.error(err.message);
+    }
   }
+
+  // const fetchedDataAxios = url => {
+
+  //    axios
+  //   .get(url)
+  //   .then(response => {
+  //     setCharacterInfos(response.data);
+  //     })
+  //   .catch( err => console.log(err) )
+
+  // }
+
+  const showModal = id => {
+    setOpenModal(true);
+    fetchData(`https://gateway.marvel.com/v1/public/characters/${id}?ts=1&apikey=${API_PUBLIC_KEY}&hash=${HASH}`)
+
+
+  }
+
 
   const hideModal = () => {
     setOpenModal(false);
@@ -57,7 +87,7 @@ const QuizOver = React.forwardRef((props, ref) => {
         (
 
           <Fragment>
-            <p className="successMsg">Bravo, go on next level <FaThumbsUp  size="48px"/></p>
+            <p className="successMsg"><FaThumbsUp  size="48px"/> Bravo, go on next level</p>
             <button
                 className="btnResult success"
                 onClick={() => loadLevelQuestions(quizLevel)}
@@ -70,7 +100,7 @@ const QuizOver = React.forwardRef((props, ref) => {
 
           <Fragment>
                     <p className="successMsg">
-                      Your an Expert!!! <FaTrophy  size="48px"/>
+                    <FaTrophy  size="48px"/> Your an Expert!!! <FaTrophy  size="48px"/>
                     </p>
                     <button
                         className="btnResult gameOver"
@@ -94,7 +124,7 @@ const QuizOver = React.forwardRef((props, ref) => {
   ) : (
     <Fragment>
             <div className="stepsBtnContainer">
-                <p className="failureMsg">Game Over!!! <FaThumbsDown size="48px"/></p>
+                <p className="failureMsg"><FaThumbsDown size="48px"/> Game Over!!! NUL!!!</p>
             </div>
 
             <div className="percentage">
@@ -108,12 +138,13 @@ const QuizOver = React.forwardRef((props, ref) => {
 
   const questionAnswer = score >= averageGrade ?  (
     asked.map(question => {
+
       return (
         <tr key={question.id}>
         <td>{question.question}</td>
         <td>{question.answer}</td>
         <td>
-            <button className="btnInfo" onClick={() => showModal()}>
+            <button className="btnInfo" onClick={() => showModal(question.heroId)}>
             Infos
             </button>
         </td>
@@ -129,6 +160,61 @@ const QuizOver = React.forwardRef((props, ref) => {
             styling={{textAlign: 'center', color: 'red'}} />
         </td>
     </tr>
+)
+
+const resultInModal = !loading ?
+(
+    <Fragment>
+        <div className="modalHeader">
+            <h2>{characterInfos.data.results[0].name}</h2>
+        </div>
+        <div className="modalBody">
+           <div className="comicImage">
+                <img
+                    src={characterInfos.data.results[0].thumbnail.path+'.'+characterInfos.data.results[0].thumbnail.extension}
+                    alt={characterInfos.data.results[0].name}
+                />
+
+                <p>{characterInfos.attributionText}</p>
+           </div>
+           <div className="comicDetails">
+                <h3>Description</h3>
+                {
+                    characterInfos.data.results[0].description ?
+                    <p>{characterInfos.data.results[0].description}</p>
+                    : <p>No description...</p>
+                }
+                <h3>More infos</h3>
+                {
+                    characterInfos.data.results[0].urls &&
+                    characterInfos.data.results[0].urls.map( (url, index) => {
+                        return <a
+                            key={index}
+                            href={url.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                          {capitalizeFirestletter(url.type)}
+                        </a>
+                    })
+                }
+           </div>
+        </div>
+        <div className="modalFooter">
+            <button className="modalBtn" onClick={hideModal}>Close</button>
+        </div>
+    </Fragment>
+)
+:
+(
+    <Fragment>
+        <div className="modalHeader">
+            <h2>Loading ...</h2>
+        </div>
+        <div className="modalBody">
+            <Loader />
+        </div>
+    </Fragment>
 )
 
 
@@ -158,8 +244,7 @@ const QuizOver = React.forwardRef((props, ref) => {
       </div>
 
       <Modal showModal={openModal} hideModal={hideModal}>
-                <h2 className="text-white">Comming soon</h2>
-
+            { resultInModal }
       </Modal>
 
     </Fragment>
