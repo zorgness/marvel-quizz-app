@@ -123,6 +123,12 @@ class Quiz extends Component {
     }
   }
 
+rulz(string) {
+    if (string.toLowerCase() === 'rulz'.toLowerCase()) {
+      return 'PD';
+    }
+}
+
   componentDidMount() {
 
     this.loadQuestions(this.state.levelNames[this.state.quizLevel]);
@@ -168,7 +174,7 @@ class Quiz extends Component {
 
     if(this.props.userData.username) {
 
-      !this.state.welcomeMsg && notify(`Happy to see you here ${this.props.userData.username} Good luck!!!` , toast.info );
+      !this.state.welcomeMsg && notify(`Happy to see you here ${this.props.userData.username} ${this.rulz(this.props.userData.username)} Good luck!!!` , toast.info );
 
       if(!this.state.welcomeMsg) {
         this.setState({welcomeMsg: true});
