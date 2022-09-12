@@ -1,7 +1,10 @@
 # Getting Started with Create React App
 
-
+## With Vercel
 https://marvel-quizz-app.vercel.app/
+
+## With Firebase
+https://my-marvel-quiz-b63e3.web.app/
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
